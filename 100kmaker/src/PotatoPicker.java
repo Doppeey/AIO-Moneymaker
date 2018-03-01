@@ -9,8 +9,6 @@ import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
-import com.intellij.uiDesigner.core.*;
-
 import org.osbot.rs07.api.Bank;
 import org.osbot.rs07.api.DepositBox;
 import org.osbot.rs07.api.Inventory;
@@ -20,11 +18,14 @@ import org.osbot.rs07.api.map.Area;
 import org.osbot.rs07.api.map.Position;
 import org.osbot.rs07.api.model.RS2Object;
 import org.osbot.rs07.utility.ConditionalSleep;
-
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 @org.osbot.rs07.script.ScriptManifest(name = "Doppeys PotatoPicker 1.0", author = "Doppey", version = 1.0D, info = "Picks potatoes like a boss", logo = "")
+
+
 public class PotatoPicker extends org.osbot.rs07.script.Script {
+    
     Area WORKPLACE = new Area(new Position(3141, 3270, 0), new Position(3155, 3288, 0));
     Area BANK = new Area(new Position(3092, 3241, 0), new Position(3095, 3245, 0));
     Area GRANDEXCHANGE = new Area(3160, 3487, 3170, 3483);
@@ -39,16 +40,23 @@ public class PotatoPicker extends org.osbot.rs07.script.Script {
     GrandExchange GE = new GrandExchange(this);
     private boolean firstTimeBanking = true;
     private int actualPotatoesPicked = 0;
-    private int targetGP = 10000;
+    int targetGP = 10000;
     private JPanel content;
+    private GUI gui = new GUI();
+    int startscript = 0;
 
 
-    public PotatoPicker() {
-        initComponents();
-    }
 
     public void onStart() {
         log("Welcome to Doppeys Potato Picker, if you find any bugs please message me on the forums, enjoy!");
+        gui.run(this);
+        while (startscript == 0) {
+            try {
+                Thread.sleep(500);
+            }
+            catch (InterruptedException e) {}
+
+        }
         HashMap<String, Integer> exchangeInfo = getExchangeInfo(1942);
         costOfItem = ((Integer) exchangeInfo.get("selling")).intValue();
         log(Integer.valueOf(costOfItem));
@@ -293,75 +301,5 @@ public class PotatoPicker extends org.osbot.rs07.script.Script {
         return res;
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
 
-    private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - lukas doppler
-        panel2 = new JPanel();
-        label1 = new JLabel();
-        textField1 = new JTextField();
-        button1 = new JButton();
-
-        //======== panel2 ========
-        {
-
-            // JFormDesigner evaluation mark
-            panel2.setBorder(new javax.swing.border.CompoundBorder(
-                new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                    "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                    javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                    java.awt.Color.red), panel2.getBorder())); panel2.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
-
-
-            //---- label1 ----
-            label1.setText("Enter amount of gp you want to earn:");
-            label1.setFont(label1.getFont().deriveFont(label1.getFont().getSize() + 6f));
-
-            //---- textField1 ----
-            textField1.setToolTipText("Amount in GP");
-
-            //---- button1 ----
-            button1.setText("GO");
-
-            GroupLayout panel2Layout = new GroupLayout(panel2);
-            panel2.setLayout(panel2Layout);
-            panel2Layout.setHorizontalGroup(
-                panel2Layout.createParallelGroup()
-                    .addGroup(panel2Layout.createSequentialGroup()
-                        .addGroup(panel2Layout.createParallelGroup()
-                            .addGroup(panel2Layout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addGroup(panel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(label1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(textField1)))
-                            .addGroup(panel2Layout.createSequentialGroup()
-                                .addGap(144, 144, 144)
-                                .addComponent(button1, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(38, Short.MAX_VALUE))
-            );
-            panel2Layout.setVerticalGroup(
-                panel2Layout.createParallelGroup()
-                    .addGroup(panel2Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(label1)
-                        .addGap(18, 18, 18)
-                        .addComponent(textField1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(button1)
-                        .addContainerGap(20, Short.MAX_VALUE))
-            );
-        }
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents
-    }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - lukas doppler
-    private JPanel panel2;
-    private JLabel label1;
-    private JTextField textField1;
-    private JButton button1;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
